@@ -25,9 +25,9 @@ contract ERC20Token is ERC20 {
     mapping(string => Person) public personObject;
 
     //event for successful transfer
-    event TransferSuccess(address indexed _from, address indexed _to, uint246 _amount);
+    event TransferSuccess(address indexed _from, address indexed _to, uint256 _amount);
     //event for successful creation of person
-    event CreatePersonSuccess(string _name, string_idNumber);
+    event CreatePersonSuccess(string _name, string _idNumber);
 
     //modifier to restric access to owner
     modifier onlyOwner(){
@@ -55,9 +55,11 @@ contract ERC20Token is ERC20 {
     //function to transfer token
     function transfer(address _to, uint256 _amount) public override returns(bool){
         require(_amount <= INITIAL_SUPPLY, "Amount is more than the available");
-        _transfer(_msgSender(), _to, _from);
+        _transfer(_msgSender(), _to, _amount);
 
-        emit TransferSuccess(_from, _to, _amount);
+        emit TransferSuccess(_msgSender(), _to, _amount);
+
+        return true;
     }
 
     //function to mint tokens
