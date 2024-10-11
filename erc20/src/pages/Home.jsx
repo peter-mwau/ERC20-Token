@@ -1,8 +1,10 @@
 import AddPerson from "../components/AddPerson";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import WalletContext from "../contexts/WalletContext";
 
 const Home = () => {
     const [personForm, setPersonForm] = useState(false);
+    const { peopleData } = useContext(WalletContext);
 
     const handleClose = () => {
         if (personForm) {
@@ -26,6 +28,30 @@ const Home = () => {
                     Add Person
                 </button>
             </div>
+
+            <div className="flex flex-col gap-4 mt-4">
+                {peopleData.length > 0 ? (
+                    peopleData.map((person, index) => (
+                        <div key={index} className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                            <h1 className="text-lg font-semibold dark:text-gray-300">Name: {person[0]}</h1>
+                            <p className="text-sm dark:text-gray-300">Age: {person.age}</p>
+                            <p className="text-sm dark:text-gray-300">
+                                Id Number: {person.idNumber}
+                            </p>
+                            <p className="text-sm dark:text-gray-300">
+                                Marital Status: {person.married}
+
+                            </p>
+
+                            </div>
+                    ))
+                ) : (
+                    <p className="text-gray-800 dark:text-gray-300">No data available</p>
+                )}
+            </div>
+
+
+
             {personForm && (
                 <div className="modalOverlay">
                     <AddPerson onClose={handleClose} />

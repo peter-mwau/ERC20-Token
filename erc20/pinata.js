@@ -5,6 +5,8 @@ import axios from 'axios';
 const pinataApiKey = import.meta.env.VITE_APP_PINATA_API_KEY;
 const pinataSecretApiKey = import.meta.env.VITE_APP_PINATA_API_SECRET;
 
+let ipfsHashes = [];
+
 export const uploadToPinata = async (file) => {
   const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
 
@@ -45,6 +47,8 @@ export const uploadMetadataToIPFS = async (metadata) => {
     }
   }).then(response => {
     console.log('Metadata IPFS hash:', response.data.IpfsHash);
+    ipfsHashes.push(response.data.IpfsHash);
+    localStorage.setItem('ipfsHashes', JSON.stringify(ipfsHashes));
     return response.data.IpfsHash;
   }).catch(error => {
     console.error('Error uploading metadata to IPFS:', error);

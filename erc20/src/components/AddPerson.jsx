@@ -22,6 +22,9 @@ const AddPerson = ({ onClose }) => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  //create an empty list to append ifpsfhashes
+    // const [ipfsHashes, setIpfsHashes] = useState([]);
+
   const resetFormFields = () => {
     setName("");
     setIdNumber("");
@@ -44,25 +47,6 @@ const AddPerson = ({ onClose }) => {
     }
   };
 
-
-
-//   const handleDataUpload = async (name, idNumber, age, gender) => {
-//       const data = {
-//           name: name,
-//           idNumber: idNumber,
-//           age: age,
-//           gender: gender
-//       }
-
-//       try {
-//           const response = await pinata.uploadMetadataToIPFS(data);
-//           console.log("Response: ",response);
-//           return response
-//       } catch (error) {
-//           console.error("Error uploading document to Pinata: ", error);
-//           setError("Error uploading document.");
-//       }
-//   };
 
 const addPerson = async () => {
     setLoading(true);
@@ -90,6 +74,8 @@ const addPerson = async () => {
         const receipt = await transaction;
         if (receipt.status) {
             console.log("Transaction successful with receipt: ", receipt);
+
+            // setIpfsHashes(receipt.)
             
             // Step 1: Upload data to IPFS only if transaction was successful
             const response = await uploadMetadataToIPFS(name, idNumber, age, isMarried);
