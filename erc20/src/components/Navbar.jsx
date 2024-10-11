@@ -95,7 +95,7 @@ function Navbar() {
                                     <p className='font-light text-sm text-gray-700 dark:text-gray-50'>Balance:</p>
                                     <span className='text-wrap italic text-sm font-semibold dark:text-gray-50 items-center justify-center py-2'> {isWalletConnected ?balance : '0'} ETH</span>
 									<p className='font-light text-sm text-gray-700 dark:text-gray-50'>Token Balance:</p>
-									<span className='text-wrap italic text-sm font-semibold dark:text-gray-50 items-center justify-center py-2'> {isWalletConnected ?tokenBalance : 'N/A'} ABYATKN</span>
+									<span className='text-wrap italic text-sm font-semibold dark:text-gray-50 items-center justify-center py-2'> {isWalletConnected ?tokenBalance : 'N/A'} TTKN</span>
                                 </div>
 								</li>
 								<li>

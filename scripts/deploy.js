@@ -4,7 +4,7 @@ async function main (){
     const ERC20 = await ethers.getContractFactory("ERC20Token");
     const erc20 = await ERC20.deploy();
 
-    console.log("ERC20Token deployed to:", erc20.address);
+    console.log("ERC20Token deployed to:", erc20.target);
 }
 
 main()

@@ -4,10 +4,9 @@ require("@nomicfoundation/hardhat-toolbox");
 module.exports = {
   solidity: "0.8.27",
   networks: {
-    hardhat: {
-      chainId: 1337,
-      // url: process.env.VITE_APP_RPC_URL,
-      // privatekey: process.env.VITE_APP_PRIVATE_KEY
-    }
+    sepolia: {
+      url: "https://eth-sepolia.g.alchemy.com/v2/ZBY5AzR16waI0CK-kL9oae7lZ1EXdkYH",
+      accounts: ["9c291559b0e3a77cdb5dedfce4d2cce8fe2abe84c5fb527070b4542c1c5d99d7"]
+    },
   }
 };

@@ -1,9 +1,9 @@
 import axios from 'axios';
-const FormData = require('form-data');
+// const FormData = require('form-data');
 
 
-const pinataApiKey = '2b0abf6274f267a6571e';
-const pinataSecretApiKey = '4a1cabe852754a0c92c89652ec424c6f625ba476c2dffad222e1ebf6ad86409e';
+const pinataApiKey = import.meta.env.VITE_APP_PINATA_API_KEY;
+const pinataSecretApiKey = import.meta.env.VITE_APP_PINATA_API_SECRET;
 
 export const uploadToPinata = async (file) => {
   const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
@@ -40,8 +40,8 @@ export const uploadMetadataToIPFS = async (metadata) => {
 
   return axios.post(url, metadata, {
     headers: {
-      pinata_api_key: '2b0abf6274f267a6571e',
-      pinata_secret_api_key: '4a1cabe852754a0c92c89652ec424c6f625ba476c2dffad222e1ebf6ad86409e'
+      pinata_api_key: pinataApiKey,
+      pinata_secret_api_key: pinataSecretApiKey
     }
   }).then(response => {
     console.log('Metadata IPFS hash:', response.data.IpfsHash);
@@ -69,8 +69,8 @@ export const getPinnedData = async () => {
   try {
       const response = await axios.get(url, {
           headers: {
-              pinata_api_key: '2b0abf6274f267a6571e',
-              pinata_secret_api_key: '4a1cabe852754a0c92c89652ec424c6f625ba476c2dffad222e1ebf6ad86409e',
+              pinata_api_key: pinataApiKey,
+              pinata_secret_api_key: pinataSecretApiKey
           },
       });
 

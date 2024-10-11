@@ -8,7 +8,7 @@ import pinataSDK from "@pinata/sdk";
 import { uploadMetadataToIPFS } from '../../pinata';
 
 // Initialize Pinata SDK
-// const pinata = new pinataSDK(process.env.REACT_APP_PINATA_API_KEY, process.env.REACT_APP_PINATA_API_SECRET);
+const pinata = new pinataSDK(import.meta.env.REACT_APP_PINATA_API_KEY, import.meta.env.REACT_APP_PINATA_API_SECRET);
 const contractAddress = import.meta.env.VITE_APP_CONTRACT_ADDRESS;
 
 const AddPerson = ({ onClose }) => {
@@ -17,7 +17,7 @@ const AddPerson = ({ onClose }) => {
   const [name, setName] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [age, setAge] = useState("");
-  const [married, setmarried] = useState(null);
+  const [married, setmarried] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -46,52 +46,73 @@ const AddPerson = ({ onClose }) => {
 
 
 
-  const handleDataUpload = async (name, idNumber, age, gender) => {
-      const data = {
-          name: name,
-          idNumber: idNumber,
-          age: age,
-          gender: gender
-      }
+//   const handleDataUpload = async (name, idNumber, age, gender) => {
+//       const data = {
+//           name: name,
+//           idNumber: idNumber,
+//           age: age,
+//           gender: gender
+//       }
 
-      try {
-          const response = await pinata.uploadMetadataToIPFS(data);
-          console.log("Response: ",response);
-          return response
-      } catch (error) {
-          console.error("Error uploading document to Pinata: ", error);
-          setError("Error uploading document.");
-      }
-  };
+//       try {
+//           const response = await pinata.uploadMetadataToIPFS(data);
+//           console.log("Response: ",response);
+//           return response
+//       } catch (error) {
+//           console.error("Error uploading document to Pinata: ", error);
+//           setError("Error uploading document.");
+//       }
+//   };
 
-  const addPerson = async () => {
+const addPerson = async () => {
     setLoading(true);
     setError("");
     try {
-      const signer = await getSigner();
-      if (!signer) return;
+        const signer = await getSigner();
+        if (!signer) {
+            setError("Signer not found.");
+            return;
+        }
 
-      // Step 4: Interact with the contract
-      const web3 = new Web3(window.ethereum);
-      const contract = new web3.eth.Contract(ERC20.abi, contractAddress);
-      const transaction = await contract.methods
-        .addPerson(name, idNumber, age, married)
-        .send({ from: signer });
+        const isMarried = Boolean(married); 
 
-      const receipt = await transaction;
-      console.log("Transaction successful with receipt: ", receipt);
+        // Step 2: Interact with the contract
+        const web3 = new Web3(window.ethereum);
+        await window.ethereum.request({ method: 'eth_requestAccounts' }); // Ensure accounts are unlocked
+        const contract = new web3.eth.Contract(ERC20.abi, contractAddress);
+        
+        console.log("Adding person with: ", { name, idNumber, age, isMarried }); // Log inputs
 
-      handleDataUpload(name, idNumber, age, married);
+        const transaction = await contract.methods
+            .addPerson(name, idNumber, age, isMarried)
+            .send({ from: signer });
 
-      setSuccess("Registration Successful!!");
-      resetFormFields();
+        const receipt = await transaction;
+        if (receipt.status) {
+            console.log("Transaction successful with receipt: ", receipt);
+            
+            // Step 1: Upload data to IPFS only if transaction was successful
+            const response = await uploadMetadataToIPFS(name, idNumber, age, isMarried);
+            if (!response) {
+                setError("IPFS upload failed.");
+                return; // Handle if upload fails
+            }
+            
+            setSuccess("Registration Successful!!");
+            resetFormFields();
+        } else {
+            console.error("Transaction failed:", receipt);
+            setError("Transaction failed.");
+        }
     } catch (error) {
-      console.error("Error registering voter: ", error);
-      setError("An error occurred while registering the voter.");
+        console.error("Error registering voter: ", error.message || error);
+        setError("An error occurred while registering the voter.");
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
+
+
 
   AddPerson.propTypes = {
     onClose: PropTypes.func.isRequired, // Assuming onClose is a required function
@@ -128,6 +149,7 @@ const AddPerson = ({ onClose }) => {
                     id="name"
                     className="shadow border dark:border-none dark:text-gray-300 dark:shadow-sm dark:shadow-yellow-400 font-semibold italic rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
                     type="text"
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 {/* ID Number */}
@@ -143,6 +165,7 @@ const AddPerson = ({ onClose }) => {
                     value={idNumber}
                     name="id"
                     type="number"
+                    onChange={(e) => setIdNumber(e.target.value)}
                   />
                 </div>
               </div>
@@ -161,6 +184,7 @@ const AddPerson = ({ onClose }) => {
                     value={age}
                     type="number"
                     name="age"
+                    onChange={(e) => setAge(e.target.value)}
                   />
                 </div>
                 {/* marital status */}
@@ -171,7 +195,7 @@ const AddPerson = ({ onClose }) => {
                   >
                     Gender:
                   </label>
-                  <select className="shadow border dark:border-none dark:text-gray-900 dark:shadow-sm dark:shadow-yellow-400 font-semibold italic rounded w-full py-2 px-3 text-gray-900 focus:outline-none focus:shadow-outline">
+                  <select className="shadow border dark:border-none dark:text-gray-900 dark:shadow-sm dark:shadow-yellow-400 font-semibold italic rounded w-full py-2 px-3 text-gray-900 focus:outline-none focus:shadow-outline" value={married} onChange={(e) => setmarried(e.target.value)}>
                     <option>--select option--</option>
                     <option value="true">True</option>
                     <option value="false">False</option>
