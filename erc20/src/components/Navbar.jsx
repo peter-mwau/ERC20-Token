@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import WalletContext from "../contexts/WalletContext";
-// import { initFlowbite } from "flowbite";
+import { initFlowbite } from "flowbite";
 import { MdOutlineLightMode } from "react-icons/md";
 import { MdDarkMode } from "react-icons/md";
+import { GiRamProfile } from "react-icons/gi";
 
 function Navbar() {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -12,9 +13,9 @@ function Navbar() {
 	const { account,balance,tokenBalance, isWalletConnected, connectWallet, disconnectWallet } =
 		useContext(WalletContext);
 
-	// useEffect(() => {
-	// 	initFlowbite();
-	// }, [])
+	useEffect(() => {
+		initFlowbite();
+	}, [])
 
 	useEffect(() => {
 		if (darkMode) {
@@ -35,13 +36,13 @@ function Navbar() {
 		<nav className="bg-gray-50 dark:bg-gray-900 sticky z-50 top-0 transition-all duration-1000">
 			<div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
 				<a
-					href="https://flowbite.com/"
+					href="/"
 					className="flex items-center space-x-3 rtl:space-x-reverse md:w-[200px]"
 				>
 					<img
-						width="250"
-						height="250"
-						src="https://framerusercontent.com/images/RbmmjGxvoNP2V9QG394I89bBPA.jpg" // modified logo url
+						width="50"
+						height="50"
+						src="/africa.png" // modified logo url
 						className="attachment-large size-large wp-image-3255"
 						alt=""
 						loading="lazy"
@@ -60,7 +61,7 @@ function Navbar() {
 							data-dropdown-toggle="user-dropdown"
 							data-dropdown-placement="bottom"
 						>
-							<span className="sr-only">Open user menu</span>
+							<GiRamProfile className={`text-gray-900 dark:text-gray-100 w-10 h-10 p-2 border-gray-600 border-2 rounded-full${isWalletConnected ? 'border-2 border-yellow-500 rounded-full' : 'border-gray-600 border-2 rounded-full'}`}/>
 							
 						</button>
 						{/* <!-- Dropdown menu --> */}

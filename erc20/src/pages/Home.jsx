@@ -18,11 +18,11 @@ const Home = () => {
 
     return (
         <>
-        <div className="bg-gray-200 h-[100vh]">
-            <h1 className="text-xl text-gray-800 font-semibold italic">Welcome Home, Buddy!!</h1>
+        <div className="bg-gray-200 dark:bg-gray-800 transition-all duration-1000 h-[100vh]">
+            <h1 className="text-xl text-gray-800 font-semibold italic dark:text-gray-300">Welcome Home, Buddy!!</h1>
             <div>
                 <button onClick={openForm}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                    className="px-4 py-2 text-sm bg-cyan-950 text-gray-200 rounded-lg right-2 flex mx-auto font-semibold hover:bg-gray-500 dark:hover:bg-gray-600 dark:bg-gray-200 dark:text-gray-900 dark:hover:text-white">
                     Add Person
                 </button>
             </div>

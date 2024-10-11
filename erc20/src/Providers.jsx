@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo} from "react";
 import WalletContext from "../src/contexts/WalletContext";
 import Web3 from 'web3';
-import ERC20 from "../artifacts/contracts/ERC20.sol/ERC20Token.json";
+import ERC20 from "../../artifacts/contracts/ERC20.sol/ERC20Token.json";
 import PropTypes from "prop-types";
 import React from 'react';
 
