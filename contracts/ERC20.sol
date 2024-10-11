@@ -43,11 +43,12 @@ contract ERC20Token is ERC20 {
 
     //function to create a person
     function addPerson(string memory _name, uint256 _age, string memory _idNumber, bool _married) public {
-        require(CREATE_PERSON <= balanceOf(owner), "Amount is more than available");
+        require(CREATE_PERSON + totalSupply() <= MAX_SUPPLY, "Amount is more than available");
         Person memory newPerson = Person(_name, _age, _idNumber, _married);
         listofPeople.push(newPerson);
         personObject[_name] = newPerson;
-        transfer(msg.sender, CREATE_PERSON);
+        // transfer(msg.sender, CREATE_PERSON);
+        mintToken(msg.sender, CREATE_PERSON);
 
         emit CreatePersonSuccess(_name, _idNumber);
     }
@@ -67,4 +68,9 @@ contract ERC20Token is ERC20 {
         require(totalSupply() + _amount <= MAX_SUPPLY, "Amount is more than the available");
         _mint(_to, _amount);
     }
+
+    // Function to get all people
+function getAllPeople() public view returns (Person[] memory) {
+    return listofPeople;
+}
 }

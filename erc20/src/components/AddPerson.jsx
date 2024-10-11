@@ -133,8 +133,9 @@ const addPerson = async () => {
                   </label>
                   <input
                     id="name"
-                    className="shadow border dark:border-none dark:text-gray-300 dark:shadow-sm dark:shadow-yellow-400 font-semibold italic rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
+                    className="shadow border dark:border-none dark:text-gray-800 dark:shadow-sm dark:shadow-yellow-400 font-semibold italic rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
                     type="text"
+                    value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
@@ -147,9 +148,9 @@ const addPerson = async () => {
                     ID Number:
                   </label>
                   <input
-                    className="shadow border dark:border-none dark:text-gray-300 dark:shadow-sm dark:shadow-yellow-400 font-semibold italic rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
+                    className="shadow border dark:border-none dark:text-gray-800 dark:shadow-sm dark:shadow-yellow-400 font-semibold italic rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={idNumber}
-                    name="id"
+                    name="idNumber"
                     type="number"
                     onChange={(e) => setIdNumber(e.target.value)}
                   />
@@ -166,7 +167,7 @@ const addPerson = async () => {
                     Age:
                   </label>
                   <input
-                    className="shadow border dark:border-none dark:text-gray-300 dark:shadow-sm dark:shadow-yellow-400 font-semibold italic rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
+                    className="shadow border dark:border-none dark:text-gray-800 dark:shadow-sm dark:shadow-yellow-400 font-semibold italic rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
                     value={age}
                     type="number"
                     name="age"
